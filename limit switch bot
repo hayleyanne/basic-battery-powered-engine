@@ -1,0 +1,63 @@
+int motor1Pin = 9; //set motor1 at pin 9
+int motor2Pin = 10; //set motor2 at pin 10
+int motor1Dir = 5; //set motor1 direction at pin 7
+int motor2Dir = 6; //set motor2 direcrion at pin 8
+int speedPin = 7; //enable H bridge
+int leftlsPin = 11; //set left limit switch at pin 11
+int rightlsPin = 12; //set right limit switch at pin 12
+const int ledPin = 4; //set LED at pin 4 
+int ledState = LOW; //LED is off to start
+int currentMillis;
+int previousMillis;
+int interval;
+int reverse;
+int forward;
+
+void setup() {
+  pinMode(motor1Pin, OUTPUT); //set motor1 as output
+  pinMode(motor2Pin, OUTPUT); //set motor2 as output
+  pinMode(leftlsPin, INPUT); //set left limit switch as input 
+  pinMode(rightlsPin, INPUT); //set right limit switch as input
+  pinMode(ledPin, OUTPUT); //set LED as output
+  digitalWrite(motor1Pin, HIGH); //so motor1 will turn on
+  digitalWrite(motor2Pin, HIGH); //so motor2 will turn on 
+  }
+  
+ void loop() {
+  unsigned long currentMillis = millis();
+  if(currentMillis - previousMillis >= interval) { //to blink the LED
+    previousMillis = currentMillis;
+  }
+  if(ledState == LOW) { //to turn on the LED when it is off
+    ledState = HIGH;
+  }
+  else {
+    ledState = LOW ;
+    }
+    
+if(leftlsPin == HIGH) {
+motor1Pin = reverse; //both motors go in reverse
+motor2Pin = reverse; //both motors go in reverse
+delay(5000); //wait 5 seconds
+digitalWrite(motor1Dir, HIGH); //both motors turn right
+digitalWrite(motor2Dir, LOW); //both motors turn right
+delay(5000); //wait 5 seconds
+motor1Pin = forward; //both motors go forward
+motor2Pin = forward; //both motors go forward
+delay(5000); //wait 5 seconds
+digitalWrite(motor1Pin, LOW); //turn off both motors
+digitalWrite(motor2Pin, LOW); //turn off both motors
+}
+
+if(rightlsPin == HIGH) {
+  motor1Pin = reverse; //both motors go in reverse;
+  motor2Pin = reverse; //both motors go in reverse;
+  delay(5000); //wait 5 seconds
+  digitalWrite(motor1Dir, LOW); //both motors turn left
+  digitalWrite(motor2Dir, HIGH); //both motors turn right
+  delay(5000); //wait 5 seconds
+  motor1Pin = forward; //both motors go forward
+  motor2Pin = forward; //both motors go forward
+  delay(5000); //wait 5 seconds
+  digitalWrite(motor1Pin, LOW); //turn off both motors
+  digitalWrite(motor2Pin, LOW); //turn off both motors
