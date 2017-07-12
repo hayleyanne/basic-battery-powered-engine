@@ -1,0 +1,41 @@
+#include <servo.h>
+
+servo myservo;
+
+int pos = 0; //set original position to zero
+int sensorPin = 0; //set initial sensor pin value to zero
+int sensorValue = 0; //set initial sensor value to zero
+int redledPin = 10; //set red led at pin 10
+int greenledPin = 11; //set green led at pin 11
+int blueledPin = 12; //set blue led at pin 12
+
+void setup() {
+  myservo.attach(9);
+  Serial.begin(9600);
+  pinMode(sensorPin, INPUT);
+  pinMode(redledPin, OUTPUT);
+  }
+  
+void loop() {
+  sensorValue = analogRead(sensorPin); //sensor value to read from sensor pin
+  Serial.pintln(sensorValue);
+  pos = map(sensorValue, 0,1023, 0, 180);
+  myservo.write(pos);
+  delay(15);
+  
+if(sensorValue == HIGH) { //blue for cold temperatures
+  blueledPin = HIGH;
+  redledPin = LOW;
+  greenledPin = LOW;
+  }
+  
+if(sensorValue == HIGH) { //red for hot temperatures
+  redledPin = HIGH
+  greenledPin = LOW
+  blueledPin = LOW;
+  }
+  
+else { //green for any other temperature
+  redledPin = LOW;
+  greenledPin = HIGH;
+  blueledPin = LOW;
